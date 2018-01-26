@@ -1,4 +1,4 @@
-package kuzhelko_dmitry.simplenotes;
+package kuzhelko_dmitry.simplenotes.domain.entities;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -12,7 +12,7 @@ public class Note extends RealmObject {
 
     @PrimaryKey
     @Required
-    private int id;
+    private Integer id;
     private String title;
     private String description;
 
