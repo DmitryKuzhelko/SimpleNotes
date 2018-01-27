@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -21,6 +20,7 @@ import butterknife.OnClick;
 import kuzhelko_dmitry.simplenotes.R;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 import kuzhelko_dmitry.simplenotes.presentation.Application.App;
+import kuzhelko_dmitry.simplenotes.presentation.detailNote.view.NoteDetailActivity;
 import kuzhelko_dmitry.simplenotes.presentation.notesList.presenter.NotesPresenter;
 
 public class NotesActivity extends MvpAppCompatActivity implements INotesView {
@@ -86,14 +86,23 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
 
     @Override
     public void startDetailActivity(Intent intent) {
-        Log.i("TEST", "startDetailActivity");
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            return;
+        }
+        String id = data.getStringExtra(NoteDetailActivity.NOTE_ID);
+        String title = data.getStringExtra(NoteDetailActivity.TITLE);
+        String description = data.getStringExtra(NoteDetailActivity.DESCRIPTION);
+        mNotesPresenter.createOrUpdateNote(id, title, description);
     }
 
 
     @OnClick({R.id.fab})
     void onClickAdd(View view) {
-        Log.i("TEST", "onClickAdd");
         mNotesPresenter.addNote();
     }
 

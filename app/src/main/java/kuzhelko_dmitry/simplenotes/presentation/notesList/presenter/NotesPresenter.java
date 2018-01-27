@@ -1,10 +1,11 @@
 package kuzhelko_dmitry.simplenotes.presentation.notesList.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+
+import javax.inject.Inject;
 
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 import kuzhelko_dmitry.simplenotes.domain.interactors.notesList.NotesInteractor;
@@ -19,11 +20,12 @@ import kuzhelko_dmitry.simplenotes.presentation.notesList.view.INotesView;
 public class NotesPresenter extends MvpPresenter<INotesView> {
 
     Context context;
-    private NotesInteractor interactor;
+    public NotesInteractor interactor;
 
     public NotesPresenter() {
     }
 
+    @Inject
     public NotesPresenter(Context context, NotesInteractor interactor) {
         this.context = context;
         this.interactor = interactor;
@@ -52,8 +54,17 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
     }
 
     public void addNote() {
-        Log.i("context", "context = " + context);
-        getViewState().startDetailActivity(NoteDetailActivity.getNoteIntent(context, null));
+        getViewState().startDetailActivity(NoteDetailActivity.getNoteIntent(context));
+    }
 
+    public void createOrUpdateNote(String noteId, String title, String description) {
+        Note note;
+        if (noteId == null) {
+            note = new Note(title, description);
+            interactor.createOrUpdateNote(note);
+        } else {
+            note = new Note(noteId, title, description);
+            interactor.createOrUpdateNote(note);
+        }
     }
 }

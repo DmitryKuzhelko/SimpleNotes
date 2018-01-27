@@ -21,7 +21,7 @@ public class App extends Application {
         super.onCreate();
         Realm.init(this);
 
-        DaggerAppComponent.builder()
+        component = DaggerAppComponent.builder()
                 .notesPresenterModule(new NotesPresenterModule(this))
                 .noteDetailPresenterModule(new NoteDetailPresenterModule(this))
                 .build();

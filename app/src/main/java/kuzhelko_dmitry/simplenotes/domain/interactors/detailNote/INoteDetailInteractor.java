@@ -9,8 +9,4 @@ import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 public interface INoteDetailInteractor {
 
     Note getNote(String noteId);
-
-    void removeNote(String noteId);
-
-    void createOrUpdateNote(Note note);
 }

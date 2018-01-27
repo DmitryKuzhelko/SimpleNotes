@@ -13,4 +13,6 @@ public interface INotesInteractor {
     List<Note> getNotes();
 
     void removeNote(String noteId);
+
+    void createOrUpdateNote(Note note);
 }

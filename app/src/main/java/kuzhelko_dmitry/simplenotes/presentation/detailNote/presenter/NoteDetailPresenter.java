@@ -3,7 +3,6 @@ package kuzhelko_dmitry.simplenotes.presentation.detailNote.presenter;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 import kuzhelko_dmitry.simplenotes.domain.interactors.detailNote.NoteDetailInteractor;
 import kuzhelko_dmitry.simplenotes.presentation.detailNote.view.INoteDetailView;
 
@@ -14,7 +13,7 @@ import kuzhelko_dmitry.simplenotes.presentation.detailNote.view.INoteDetailView;
 @InjectViewState
 public class NoteDetailPresenter extends MvpPresenter<INoteDetailView> {
 
-    private NoteDetailInteractor interactor;
+    public NoteDetailInteractor interactor;
 
     public NoteDetailPresenter() {
     }
@@ -27,15 +26,5 @@ public class NoteDetailPresenter extends MvpPresenter<INoteDetailView> {
         if (noteId != null) {
             getViewState().fillInFields(interactor.getNote(noteId));
         }
-    }
-
-    public void createOrUpdateNote(String noteId, Note note) {
-        if (noteId == null) {
-            interactor.createOrUpdateNote(note);
-        } else {
-            note.setId(noteId);
-            interactor.createOrUpdateNote(note);
-        }
-        getViewState().closeActivity();
     }
 }

@@ -26,7 +26,9 @@ import kuzhelko_dmitry.simplenotes.presentation.detailNote.presenter.NoteDetailP
 
 public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDetailView {
 
-    private static final String NOTE_ID = "note id";
+    public static final String NOTE_ID = "note id";
+    public static final String TITLE = "note title";
+    public static final String DESCRIPTION = "note description";
     private String noteId;
 
     @BindView(R.id.etNoteTitle)
@@ -44,6 +46,11 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     public static Intent getNoteIntent(Context context, String noteId) {
         Intent intent = new Intent(context, NoteDetailActivity.class);
         intent.putExtra(NOTE_ID, noteId);
+        return intent;
+    }
+
+    public static Intent getNoteIntent(Context context) {
+        Intent intent = new Intent(context, NoteDetailActivity.class);
         return intent;
     }
 
@@ -76,8 +83,12 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.saveNote:
-                mNoteDetailPresenter.createOrUpdateNote(noteId, new Note(noteTitle.getText().toString(), noteDescription.getText().toString()));
-                return true;
+                Intent intent = new Intent();
+                intent.putExtra(NOTE_ID, noteId);
+                intent.putExtra(TITLE, noteTitle.getText().toString());
+                intent.putExtra(DESCRIPTION, noteDescription.getText().toString());
+                setResult(RESULT_OK, intent);
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -86,10 +97,5 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     public void fillInFields(Note note) {
         noteTitle.setText(note.getTitle());
         noteDescription.setText(note.getDescription());
-    }
-
-    @Override
-    public void closeActivity() {
-        this.finish();
     }
 }

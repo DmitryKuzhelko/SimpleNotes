@@ -26,4 +26,9 @@ public class NotesInteractor implements INotesInteractor {
     public void removeNote(String noteId) {
         notesRepository.removeNote(noteId);
     }
+
+    @Override
+    public void createOrUpdateNote(Note note) {
+
+    }
 }

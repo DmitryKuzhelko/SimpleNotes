@@ -20,14 +20,4 @@ public class NoteDetailInteractor implements INoteDetailInteractor {
         return notesRepository.getNote(noteId);
     }
 
-    @Override
-    public void removeNote(String noteId) {
-        notesRepository.removeNote(noteId);
-    }
-
-    @Override
-    public void createOrUpdateNote(Note note) {
-        notesRepository.createOrUpdateNote(note);
-    }
-
 }

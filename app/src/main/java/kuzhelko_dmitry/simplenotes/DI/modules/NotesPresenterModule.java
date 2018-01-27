@@ -22,8 +22,8 @@ public class NotesPresenterModule {
     }
 
     @Provides
-    NotesPresenter provideNotesPresenter(Context context, NotesInteractor notesInteractor) {
-        return new NotesPresenter(context, notesInteractor);
+    NotesPresenter provideNotesPresenter(NotesInteractor notesInteractor) {
+        return new NotesPresenter(mContext, notesInteractor);
     }
 
     @Provides

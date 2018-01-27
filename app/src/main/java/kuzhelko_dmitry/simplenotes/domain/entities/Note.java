@@ -27,6 +27,12 @@ public class Note extends RealmObject {
         this.id = UUID.randomUUID().toString();
     }
 
+    public Note(String id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
+
     public String getId() {
         return id;
     }

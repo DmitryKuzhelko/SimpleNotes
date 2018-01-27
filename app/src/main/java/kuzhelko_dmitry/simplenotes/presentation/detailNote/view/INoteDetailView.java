@@ -11,6 +11,4 @@ import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 public interface INoteDetailView extends MvpView {
 
     void fillInFields(Note note);
-
-    void closeActivity();
 }
