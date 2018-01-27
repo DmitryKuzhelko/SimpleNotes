@@ -5,19 +5,22 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kuzhelko_dmitry.simplenotes.R;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
+import kuzhelko_dmitry.simplenotes.presentation.Application.App;
 import kuzhelko_dmitry.simplenotes.presentation.notesList.presenter.NotesPresenter;
 
 public class NotesActivity extends MvpAppCompatActivity implements INotesView {
@@ -34,7 +37,7 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @InjectPresenter
+    @Inject
     NotesPresenter mNotesPresenter;
 
     @Override
@@ -44,10 +47,14 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
         ButterKnife.bind(this);
         setToolbar();
 
+        App.getComponent().inject(this);
+
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new NotesAdapter();
         recyclerView.setAdapter(adapter);
+
+        mNotesPresenter.setScreen();
 
         adapterClickListener();
     }
@@ -72,7 +79,6 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
     }
 
 
-
     @Override
     public void addDataToAdapter(List<Note> notes) {
         adapter.updateAdapter(notes);
@@ -80,12 +86,14 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
 
     @Override
     public void startDetailActivity(Intent intent) {
+        Log.i("TEST", "startDetailActivity");
         startActivity(intent);
     }
 
 
     @OnClick({R.id.fab})
     void onClickAdd(View view) {
+        Log.i("TEST", "onClickAdd");
         mNotesPresenter.addNote();
     }
 
@@ -101,13 +109,12 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
     }
 
     @Override
-    public void setScreen() {
-        if (mNotesPresenter.isEmptyScreen()) {
-            recyclerView.setVisibility(View.GONE);
-            emptyScreen.setVisibility(View.VISIBLE);
-        } else {
-            emptyScreen.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
+    public void showEmptyScreen() {
+        emptyScreen.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyScreen() {
+        emptyScreen.setVisibility(View.GONE);
     }
 }

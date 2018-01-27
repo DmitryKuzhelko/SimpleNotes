@@ -1,7 +1,5 @@
 package kuzhelko_dmitry.simplenotes.domain.interactors.notesList;
 
-import android.content.Context;
-
 import java.util.List;
 
 import kuzhelko_dmitry.simplenotes.data.INotesRepository;
@@ -13,11 +11,9 @@ import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 
 public class NotesInteractor implements INotesInteractor {
 
-    private Context context;
     private INotesRepository notesRepository;
 
-    public NotesInteractor(Context context, INotesRepository notesRepository) {
-        this.context = context;
+    public NotesInteractor(INotesRepository notesRepository) {
         this.notesRepository = notesRepository;
     }
 

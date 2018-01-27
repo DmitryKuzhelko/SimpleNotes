@@ -1,11 +1,8 @@
 package kuzhelko_dmitry.simplenotes.presentation.detailNote.presenter;
 
-import android.content.Context;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import kuzhelko_dmitry.simplenotes.data.NotesRepository;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 import kuzhelko_dmitry.simplenotes.domain.interactors.detailNote.NoteDetailInteractor;
 import kuzhelko_dmitry.simplenotes.presentation.detailNote.view.INoteDetailView;
@@ -17,26 +14,25 @@ import kuzhelko_dmitry.simplenotes.presentation.detailNote.view.INoteDetailView;
 @InjectViewState
 public class NoteDetailPresenter extends MvpPresenter<INoteDetailView> {
 
-    private Context context;
     private NoteDetailInteractor interactor;
 
     public NoteDetailPresenter() {
     }
 
-    public NoteDetailPresenter(Context context, NoteDetailInteractor interactor) {
-        this.context = context;
-        this.interactor = new NoteDetailInteractor(context, new NotesRepository());
+    public NoteDetailPresenter(NoteDetailInteractor interactor) {
+        this.interactor = interactor;
     }
 
     public void getDetailInfo(String noteId) {
-        getViewState().fillInFields(interactor.getNote(noteId));
+        if (noteId != null) {
+            getViewState().fillInFields(interactor.getNote(noteId));
+        }
     }
 
-    public void createOrUpdateNote(String noteId) {
+    public void createOrUpdateNote(String noteId, Note note) {
         if (noteId == null) {
-            interactor.createOrUpdateNote(getViewState().getUserData());
+            interactor.createOrUpdateNote(note);
         } else {
-            Note note = getViewState().getUserData();
             note.setId(noteId);
             interactor.createOrUpdateNote(note);
         }

@@ -10,12 +10,14 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kuzhelko_dmitry.simplenotes.R;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
+import kuzhelko_dmitry.simplenotes.presentation.Application.App;
 import kuzhelko_dmitry.simplenotes.presentation.detailNote.presenter.NoteDetailPresenter;
 
 /**
@@ -36,14 +38,23 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @InjectPresenter
+    @Inject
     NoteDetailPresenter mNoteDetailPresenter;
+
+    public static Intent getNoteIntent(Context context, String noteId) {
+        Intent intent = new Intent(context, NoteDetailActivity.class);
+        intent.putExtra(NOTE_ID, noteId);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_detail);
+        setToolbar();
         ButterKnife.bind(this);
+
+        App.getComponent().inject(this);
 
         noteId = getIntent().getStringExtra(NOTE_ID);
         mNoteDetailPresenter.getDetailInfo(noteId);
@@ -65,27 +76,16 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.saveNote:
-                mNoteDetailPresenter.createOrUpdateNote(noteId);
+                mNoteDetailPresenter.createOrUpdateNote(noteId, new Note(noteTitle.getText().toString(), noteDescription.getText().toString()));
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public static Intent getNoteIntent(Context context, String noteId) {
-        Intent intent = new Intent(context, NoteDetailActivity.class);
-        intent.putExtra(NOTE_ID, noteId);
-        return intent;
     }
 
     @Override
     public void fillInFields(Note note) {
         noteTitle.setText(note.getTitle());
         noteDescription.setText(note.getDescription());
-    }
-
-    @Override
-    public Note getUserData() {
-        return new Note(noteTitle.getText().toString(), noteDescription.getText().toString());
     }
 
     @Override

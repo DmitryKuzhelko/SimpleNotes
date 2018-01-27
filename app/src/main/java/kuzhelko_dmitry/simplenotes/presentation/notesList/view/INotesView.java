@@ -20,5 +20,7 @@ public interface INotesView extends MvpView {
 
     void deleteNote(int position);
 
-    void setScreen();
+    void hideEmptyScreen();
+
+    void showEmptyScreen();
 }

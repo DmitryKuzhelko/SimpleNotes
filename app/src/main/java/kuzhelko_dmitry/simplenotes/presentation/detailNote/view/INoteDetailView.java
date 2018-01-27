@@ -12,7 +12,5 @@ public interface INoteDetailView extends MvpView {
 
     void fillInFields(Note note);
 
-    Note getUserData();
-
     void closeActivity();
 }

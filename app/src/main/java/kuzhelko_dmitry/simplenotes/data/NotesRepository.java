@@ -15,6 +15,9 @@ public class NotesRepository implements INotesRepository {
     private static final String NOTE_ID = "note id";
     private Realm mRealm = Realm.getDefaultInstance();
 
+    public NotesRepository() {
+    }
+
     @Override
     public Note getNote(String noteId) {
         return mRealm.where(Note.class).equalTo(NOTE_ID, noteId).findFirst();

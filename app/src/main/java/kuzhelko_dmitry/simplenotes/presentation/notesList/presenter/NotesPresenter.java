@@ -1,11 +1,11 @@
 package kuzhelko_dmitry.simplenotes.presentation.notesList.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import kuzhelko_dmitry.simplenotes.data.NotesRepository;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 import kuzhelko_dmitry.simplenotes.domain.interactors.notesList.NotesInteractor;
 import kuzhelko_dmitry.simplenotes.presentation.detailNote.view.NoteDetailActivity;
@@ -18,23 +18,23 @@ import kuzhelko_dmitry.simplenotes.presentation.notesList.view.INotesView;
 @InjectViewState
 public class NotesPresenter extends MvpPresenter<INotesView> {
 
-    private Context context;
+    Context context;
     private NotesInteractor interactor;
 
     public NotesPresenter() {
     }
 
-    public NotesPresenter(Context context) {
+    public NotesPresenter(Context context, NotesInteractor interactor) {
         this.context = context;
-        this.interactor = new NotesInteractor(context, new NotesRepository());
+        this.interactor = interactor;
     }
 
-    public boolean isEmptyScreen() {
+    public void setScreen() {
         if (interactor.getNotes() == null) {
-            return true;
+            getViewState().showEmptyScreen();
         } else {
+            getViewState().hideEmptyScreen();
             getViewState().addDataToAdapter(interactor.getNotes());
-            return false;
         }
     }
 
@@ -52,6 +52,8 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
     }
 
     public void addNote() {
+        Log.i("context", "context = " + context);
         getViewState().startDetailActivity(NoteDetailActivity.getNoteIntent(context, null));
+
     }
 }

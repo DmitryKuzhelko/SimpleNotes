@@ -30,7 +30,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     }
 
     public void updateAdapter(List<Note> notes) {
-            this.notes = notes;
+        this.notes = notes;
     }
 
     public void setClickListener(ClickListener clickListener) {
@@ -61,7 +61,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return notes.size();
+        if (notes == null) {
+            return 0;
+        } else {
+            return notes.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
