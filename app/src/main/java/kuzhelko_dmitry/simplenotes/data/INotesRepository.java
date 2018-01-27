@@ -1,14 +1,14 @@
-package kuzhelko_dmitry.simplenotes.domain.interactors.notesList;
+package kuzhelko_dmitry.simplenotes.data;
 
 import java.util.List;
 
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 
 /**
- * Created by kuzhe on 26.01.2018.
+ * Created by kuzhe on 27.01.2018.
  */
 
-public interface INotesInteractor {
+public interface INotesRepository {
 
     List<Note> getNotes();
 
