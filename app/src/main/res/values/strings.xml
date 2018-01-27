@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SimpleNotes</string>
+    <string name="all_notes">Все заметки</string>
+    <string name="add_note">Добавление заметки</string>
+    <string name="note_title">Название заметки</string>
+    <string name="description_title">Описание</string>
 </resources>

@@ -12,5 +12,9 @@ public interface INotesRepository {
 
     List<Note> getNotes();
 
+    Note getNote(String noteId);
+
     void removeNote(String noteId);
+
+    void createOrUpdateNote(Note note);
 }

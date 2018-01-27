@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".EditItemFragment">
+
+    <item
+        android:id="@+id/saveNote"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/save_note_btn"
+        android:title="Save"></item>
+</menu>

@@ -29,8 +29,13 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
         this.interactor = new NotesInteractor(context, new NotesRepository());
     }
 
-    public void getNotes() {
-        getViewState().addDataToAdapter(interactor.getNotes());
+    public boolean isEmptyScreen() {
+        if (interactor.getNotes() == null) {
+            return true;
+        } else {
+            getViewState().addDataToAdapter(interactor.getNotes());
+            return false;
+        }
     }
 
     public void itemClick(String noteId) {
@@ -44,5 +49,9 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
     public void deleteClick(Note note, int position) {
         getViewState().deleteNote(position);
         interactor.removeNote(note.getId());
+    }
+
+    public void addNote() {
+        getViewState().startDetailActivity(NoteDetailActivity.getNoteIntent(context, null));
     }
 }

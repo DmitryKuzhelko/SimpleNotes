@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import kuzhelko_dmitry.simplenotes.R;
@@ -22,10 +21,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     private List<Note> notes;
     private static ClickListener clickListener;
 
-    public NotesAdapter() {
-        notes = new ArrayList<>();
-    }
-
     public interface ClickListener {
         void onItemClick(Note note);
 
@@ -35,9 +30,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     }
 
     public void updateAdapter(List<Note> notes) {
-//        if (this.notes == null) {
             this.notes = notes;
-//        }
     }
 
     public void setClickListener(ClickListener clickListener) {

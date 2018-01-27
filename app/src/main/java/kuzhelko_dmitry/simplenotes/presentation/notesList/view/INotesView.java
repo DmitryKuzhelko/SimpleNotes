@@ -19,4 +19,6 @@ public interface INotesView extends MvpView {
     void startDetailActivity(Intent intent);
 
     void deleteNote(int position);
+
+    void setScreen();
 }

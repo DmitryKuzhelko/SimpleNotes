@@ -3,6 +3,10 @@ package kuzhelko_dmitry.simplenotes.presentation.detailNote.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -29,14 +33,11 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     @BindView(R.id.etNoteDescription)
     EditText noteDescription;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @InjectPresenter
     NoteDetailPresenter mNoteDetailPresenter;
-
-    public static Intent getNoteIntent(Context context, String noteId) {
-        Intent intent = new Intent(context, NoteDetailActivity.class);
-        intent.putExtra(NOTE_ID, noteId);
-        return intent;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,47 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
         mNoteDetailPresenter.getDetailInfo(noteId);
     }
 
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.add_note));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.saveNote:
+                mNoteDetailPresenter.createOrUpdateNote(noteId);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static Intent getNoteIntent(Context context, String noteId) {
+        Intent intent = new Intent(context, NoteDetailActivity.class);
+        intent.putExtra(NOTE_ID, noteId);
+        return intent;
+    }
+
     @Override
     public void fillInFields(Note note) {
         noteTitle.setText(note.getTitle());
         noteDescription.setText(note.getDescription());
+    }
+
+    @Override
+    public Note getUserData() {
+        return new Note(noteTitle.getText().toString(), noteDescription.getText().toString());
+    }
+
+    @Override
+    public void closeActivity() {
+        this.finish();
     }
 }
