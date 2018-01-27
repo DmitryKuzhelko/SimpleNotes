@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import javax.inject.Inject;
 
@@ -41,7 +43,13 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     Toolbar toolbar;
 
     @Inject
+    @InjectPresenter
     NoteDetailPresenter mNoteDetailPresenter;
+
+    @ProvidePresenter
+    NoteDetailPresenter providePresenter() {
+        return mNoteDetailPresenter;
+    }
 
     public static Intent getNoteIntent(Context context, String noteId) {
         Intent intent = new Intent(context, NoteDetailActivity.class);

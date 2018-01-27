@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
@@ -38,7 +40,13 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
     Toolbar toolbar;
 
     @Inject
+    @InjectPresenter
     NotesPresenter mNotesPresenter;
+
+    @ProvidePresenter
+    NotesPresenter providePresenter() {
+        return mNotesPresenter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
