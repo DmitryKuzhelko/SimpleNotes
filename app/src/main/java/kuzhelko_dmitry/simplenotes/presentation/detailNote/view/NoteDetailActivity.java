@@ -32,6 +32,7 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     public static final String TITLE = "note title";
     public static final String DESCRIPTION = "note description";
     private String noteId;
+    private Toolbar toolbar;;
 
     @BindView(R.id.etNoteTitle)
     EditText noteTitle;
@@ -39,16 +40,16 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     @BindView(R.id.etNoteDescription)
     EditText noteDescription;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
     @Inject
+    NoteDetailPresenter daggerPresenter;
+
     @InjectPresenter
     NoteDetailPresenter mNoteDetailPresenter;
 
     @ProvidePresenter
-    NoteDetailPresenter providePresenter() {
-        return mNoteDetailPresenter;
+    NoteDetailPresenter daggerPresenter(){
+        App.getComponent().inject(this);
+        return daggerPresenter;
     }
 
     public static Intent getNoteIntent(Context context, String noteId) {
@@ -69,15 +70,14 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
         setToolbar();
         ButterKnife.bind(this);
 
-        App.getComponent().inject(this);
-
         noteId = getIntent().getStringExtra(NOTE_ID);
         mNoteDetailPresenter.getDetailInfo(noteId);
     }
 
     private void setToolbar() {
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getResources().getString(R.string.add_note));
+        toolbar.setTitle(getResources().getString(R.string.add_note));
     }
 
     @Override

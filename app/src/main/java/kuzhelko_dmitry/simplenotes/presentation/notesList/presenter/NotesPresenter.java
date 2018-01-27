@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import javax.inject.Inject;
 
@@ -20,7 +21,7 @@ import kuzhelko_dmitry.simplenotes.presentation.notesList.view.INotesView;
 public class NotesPresenter extends MvpPresenter<INotesView> {
 
     Context context;
-    public NotesInteractor interactor;
+    NotesInteractor interactor;
 
     public NotesPresenter() {
     }
@@ -29,6 +30,11 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
     public NotesPresenter(Context context, NotesInteractor interactor) {
         this.context = context;
         this.interactor = interactor;
+    }
+
+    @ProvidePresenter
+    NotesPresenter providePresenter() {
+        return new NotesPresenter(context, interactor);
     }
 
     public void setScreen() {
@@ -55,6 +61,7 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
 
     public void addNote() {
         getViewState().startDetailActivity(NoteDetailActivity.getNoteIntent(context));
+//        Intent intent = new Intent(this, NameActivity.class);
     }
 
     public void createOrUpdateNote(String noteId, String title, String description) {

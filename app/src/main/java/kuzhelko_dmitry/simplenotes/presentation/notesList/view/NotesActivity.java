@@ -29,6 +29,7 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
 
     private LinearLayoutManager layoutManager;
     private NotesAdapter adapter;
+    private Toolbar toolbar;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -36,16 +37,16 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
     @BindView(R.id.empty_screen_state)
     ImageView emptyScreen;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
     @Inject
+    NotesPresenter daggerPresenter;
+
     @InjectPresenter
-    NotesPresenter mNotesPresenter;
+    NotesPresenter notesPresenter;
 
     @ProvidePresenter
-    NotesPresenter providePresenter() {
-        return mNotesPresenter;
+    NotesPresenter daggerPresenter(){
+        App.getComponent().inject(this);
+        return daggerPresenter;
     }
 
     @Override
@@ -55,14 +56,13 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
         ButterKnife.bind(this);
         setToolbar();
 
-        App.getComponent().inject(this);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new NotesAdapter();
         recyclerView.setAdapter(adapter);
 
-        mNotesPresenter.setScreen();
+        notesPresenter.setScreen();
 
         adapterClickListener();
     }
@@ -71,17 +71,17 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
         adapter.setClickListener(new NotesAdapter.ClickListener() {
             @Override
             public void onItemClick(Note note) {
-                mNotesPresenter.itemClick(note.getId());
+                notesPresenter.itemClick(note.getId());
             }
 
             @Override
             public void onEditClick(Note note, int position) {
-                mNotesPresenter.editClick(note.getId());
+                notesPresenter.editClick(note.getId());
             }
 
             @Override
             public void onDeleteClick(Note note, int position) {
-                mNotesPresenter.deleteClick(note, position);
+                notesPresenter.deleteClick(note, position);
             }
         });
     }
@@ -105,13 +105,13 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
         String id = data.getStringExtra(NoteDetailActivity.NOTE_ID);
         String title = data.getStringExtra(NoteDetailActivity.TITLE);
         String description = data.getStringExtra(NoteDetailActivity.DESCRIPTION);
-        mNotesPresenter.createOrUpdateNote(id, title, description);
+        notesPresenter.createOrUpdateNote(id, title, description);
     }
 
 
     @OnClick({R.id.fab})
     void onClickAdd(View view) {
-        mNotesPresenter.addNote();
+        notesPresenter.addNote();
     }
 
     @Override
@@ -121,6 +121,7 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
 
 
     private void setToolbar() {
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.all_notes));
     }
