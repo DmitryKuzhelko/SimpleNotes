@@ -1,7 +1,6 @@
 package kuzhelko_dmitry.simplenotes.presentation.notesList.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -68,11 +67,9 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
         if (noteId == null) {
             note = new Note(title, description);
             getViewState().addNote();
-            Log.i("NotesPresenter1", "note = " + note.toString());
         } else {
             note = new Note(noteId, title, description);
-            getViewState().updateNote(1, note);
-            Log.i("NotesPresenter2", "note = " + note.toString());
+            getViewState().updateNote();
         }
         interactor.createOrUpdateNote(note);
     }

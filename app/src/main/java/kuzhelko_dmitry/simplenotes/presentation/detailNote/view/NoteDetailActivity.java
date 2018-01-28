@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kuzhelko_dmitry.simplenotes.R;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
-import kuzhelko_dmitry.simplenotes.presentation.Application.App;
+import kuzhelko_dmitry.simplenotes.utils.App;
 import kuzhelko_dmitry.simplenotes.presentation.detailNote.presenter.NoteDetailPresenter;
 import kuzhelko_dmitry.simplenotes.utils.Constants;
 

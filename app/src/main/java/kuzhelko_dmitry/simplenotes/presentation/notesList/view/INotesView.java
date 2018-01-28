@@ -22,7 +22,7 @@ public interface INotesView extends MvpView {
 
     void addNote();
 
-    void updateNote(int position, Note note);
+    void updateNote();
 
     void hideEmptyScreen();
 

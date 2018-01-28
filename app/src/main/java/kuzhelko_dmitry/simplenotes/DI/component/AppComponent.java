@@ -15,5 +15,4 @@ public interface AppComponent {
 
     void inject(NotesActivity notesActivity);
     void inject(NoteDetailActivity noteDetailActivity);
-
 }

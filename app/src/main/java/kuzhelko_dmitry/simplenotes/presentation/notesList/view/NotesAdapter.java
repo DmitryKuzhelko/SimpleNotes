@@ -46,9 +46,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         notifyItemRemoved(position);
     }
 
-    public void updateNote(int position, Note note) {
-//        notifyItemChanged(position);
-//        notifyItemChanged(position, note);
+    public void updateNote() {
         notifyDataSetChanged();
     }
 
@@ -86,36 +84,27 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvNoteTitle = (TextView) itemView.findViewById(R.id.noteTitle);
-            tvNoteDescription = (TextView) itemView.findViewById(R.id.noteDescription);
-            editBtn = (ImageButton) itemView.findViewById(R.id.editNote);
-            deleteBtn = (ImageButton) itemView.findViewById(R.id.deleteNote);
+            tvNoteTitle = itemView.findViewById(R.id.noteTitle);
+            tvNoteDescription = itemView.findViewById(R.id.noteDescription);
+            editBtn = itemView.findViewById(R.id.editNote);
+            deleteBtn = itemView.findViewById(R.id.deleteNote);
 
-            editBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (NotesAdapter.clickListener != null) {
-                        NotesAdapter.clickListener.onEditClick(notes.get(getAdapterPosition()), getAdapterPosition());
-                    }
+            editBtn.setOnClickListener(v -> {
+                if (NotesAdapter.clickListener != null) {
+                    NotesAdapter.clickListener.onEditClick(notes.get(getAdapterPosition()), getAdapterPosition());
                 }
             });
 
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (NotesAdapter.clickListener != null) {
-                        NotesAdapter.clickListener.onDeleteClick(notes.get(getAdapterPosition()), getAdapterPosition());
-                    }
+            deleteBtn.setOnClickListener(v -> {
+                if (NotesAdapter.clickListener != null) {
+                    NotesAdapter.clickListener.onDeleteClick(notes.get(getAdapterPosition()), getAdapterPosition());
                 }
             });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            itemView.setOnClickListener(v -> {
 
-                    if (NotesAdapter.clickListener != null) {
-                        NotesAdapter.clickListener.onItemClick(notes.get(getAdapterPosition()), getAdapterPosition());
-                    }
+                if (NotesAdapter.clickListener != null) {
+                    NotesAdapter.clickListener.onItemClick(notes.get(getAdapterPosition()), getAdapterPosition());
                 }
             });
         }

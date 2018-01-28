@@ -1,8 +1,5 @@
 package kuzhelko_dmitry.simplenotes.data;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 import java.util.List;
 
 import io.realm.Realm;
@@ -32,21 +29,11 @@ public class NotesRepository implements INotesRepository {
 
     @Override
     public void removeNote(final String noteId) {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                getNote(noteId).deleteFromRealm();
-            }
-        });
+        mRealm.executeTransaction(realm -> getNote(noteId).deleteFromRealm());
     }
 
     @Override
     public void createOrUpdateNote(Note note) {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(@NonNull Realm realm) {
-                mRealm.copyToRealmOrUpdate(note);
-            }
-        });
+        mRealm.executeTransaction(realm -> mRealm.copyToRealmOrUpdate(note));
     }
 }

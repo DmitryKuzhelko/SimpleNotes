@@ -1,7 +1,5 @@
 package kuzhelko_dmitry.simplenotes.domain.interactors.notesList;
 
-import android.util.Log;
-
 import java.util.List;
 
 import kuzhelko_dmitry.simplenotes.data.INotesRepository;
@@ -31,7 +29,6 @@ public class NotesInteractor implements INotesInteractor {
 
     @Override
     public void createOrUpdateNote(Note note) {
-        Log.i("NotesInteractor", "note = " + note.toString());
         notesRepository.createOrUpdateNote(note);
     }
 }

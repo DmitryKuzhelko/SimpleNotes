@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kuzhelko_dmitry.simplenotes.R;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
-import kuzhelko_dmitry.simplenotes.presentation.Application.App;
+import kuzhelko_dmitry.simplenotes.utils.App;
 import kuzhelko_dmitry.simplenotes.presentation.notesList.presenter.NotesPresenter;
 import kuzhelko_dmitry.simplenotes.utils.Constants;
 
@@ -69,32 +68,6 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
     protected void onStart() {
         super.onStart();
         presenter.setScreen();
-        Log.i("NotesActivity", "onStart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Log.i("NotesActivity", "onResume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("NotesActivity", "onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("NotesActivity", "onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("NotesActivity", "onDestroy");
     }
 
     private void adapterClickListener() {
@@ -124,7 +97,7 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
 
     @Override
     public void startDetailActivity(Intent intent) {
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, Constants.REQUEST_CODE);
     }
 
     @Override
@@ -155,8 +128,8 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
     }
 
     @Override
-    public void updateNote(int position, Note note) {
-        adapter.updateNote(position, note);
+    public void updateNote() {
+        adapter.updateNote();
     }
 
     private void setToolbar() {

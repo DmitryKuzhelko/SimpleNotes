@@ -1,4 +1,4 @@
-package kuzhelko_dmitry.simplenotes.presentation.Application;
+package kuzhelko_dmitry.simplenotes.utils;
 
 import android.app.Application;
 
