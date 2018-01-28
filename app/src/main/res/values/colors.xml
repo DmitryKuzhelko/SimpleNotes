@@ -6,6 +6,9 @@
 
     <color name="colorSplashBackground">#646667</color>
     <color name="note_background">#FFF9F9F6</color>
-    <color name="toolbar_color">#e4eb22</color>
+    <color name="toolbar_color">#f4c75e</color>
+    <color name="text_color">#000000</color>
+    <color name="note_background_color">#fdffcd</color>
+    <color name="fab_color">#dfff4d91</color>
 
 </resources>

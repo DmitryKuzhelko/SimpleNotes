@@ -32,7 +32,7 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     public static final String TITLE = "note title";
     public static final String DESCRIPTION = "note description";
     private String noteId;
-    private Toolbar toolbar;;
+    private Toolbar toolbar;
 
     @BindView(R.id.etNoteTitle)
     EditText noteTitle;
@@ -77,7 +77,7 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getResources().getString(R.string.add_note));
+        getSupportActionBar().setTitle(getResources().getString(R.string.add_note));
     }
 
     @Override

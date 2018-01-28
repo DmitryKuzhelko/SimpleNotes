@@ -2,8 +2,9 @@ package kuzhelko_dmitry.simplenotes.data;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 import io.realm.Realm;
-import io.realm.RealmResults;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 
 /**
@@ -24,7 +25,7 @@ public class NotesRepository implements INotesRepository {
     }
 
     @Override
-    public RealmResults<Note> getNotes() {
+    public List<Note> getNotes() {
         return mRealm.where(Note.class).findAll();
     }
 

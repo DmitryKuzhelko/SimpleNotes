@@ -31,7 +31,6 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
     private NotesAdapter adapter;
     private Toolbar toolbar;
 
-    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     @BindView(R.id.empty_screen_state)
@@ -56,8 +55,8 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
         ButterKnife.bind(this);
         setToolbar();
 
-
         layoutManager = new LinearLayoutManager(this);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new NotesAdapter();
         recyclerView.setAdapter(adapter);
@@ -85,7 +84,6 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
             }
         });
     }
-
 
     @Override
     public void addDataToAdapter(List<Note> notes) {

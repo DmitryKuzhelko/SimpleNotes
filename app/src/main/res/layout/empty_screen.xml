@@ -2,9 +2,9 @@
              android:id="@+id/empty_screen"
              style="@style/EmptyScreenState">
 
-    <ImageView
-        android:id="@+id/empty_screen_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/empty_screen"/>
+<ImageView
+    android:id="@+id/empty_screen_state"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:src="@drawable/empty_screen"/>
 </FrameLayout>

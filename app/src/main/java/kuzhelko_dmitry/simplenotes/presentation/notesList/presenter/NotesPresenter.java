@@ -6,6 +6,8 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
@@ -38,11 +40,12 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
     }
 
     public void setScreen() {
-        if (interactor.getNotes() == null) {
+        List<Note> result = interactor.getNotes();
+        if (result.isEmpty()) {
             getViewState().showEmptyScreen();
         } else {
             getViewState().hideEmptyScreen();
-            getViewState().addDataToAdapter(interactor.getNotes());
+            getViewState().addDataToAdapter(result);
         }
     }
 
