@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,8 +23,8 @@ import butterknife.OnClick;
 import kuzhelko_dmitry.simplenotes.R;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 import kuzhelko_dmitry.simplenotes.presentation.Application.App;
-import kuzhelko_dmitry.simplenotes.presentation.detailNote.view.NoteDetailActivity;
 import kuzhelko_dmitry.simplenotes.presentation.notesList.presenter.NotesPresenter;
+import kuzhelko_dmitry.simplenotes.utils.Constants;
 
 public class NotesActivity extends MvpAppCompatActivity implements INotesView {
 
@@ -31,19 +32,20 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
     private NotesAdapter adapter;
     private Toolbar toolbar;
 
-    RecyclerView recyclerView;
-
     @BindView(R.id.empty_screen_state)
     ImageView emptyScreen;
+
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     @Inject
     NotesPresenter daggerPresenter;
 
     @InjectPresenter
-    NotesPresenter notesPresenter;
+    NotesPresenter presenter;
 
     @ProvidePresenter
-    NotesPresenter daggerPresenter(){
+    NotesPresenter daggerPresenter() {
         App.getComponent().inject(this);
         return daggerPresenter;
     }
@@ -56,31 +58,61 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
         setToolbar();
 
         layoutManager = new LinearLayoutManager(this);
-        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new NotesAdapter();
         recyclerView.setAdapter(adapter);
 
-        notesPresenter.setScreen();
-
         adapterClickListener();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.setScreen();
+        Log.i("NotesActivity", "onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.i("NotesActivity", "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("NotesActivity", "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("NotesActivity", "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("NotesActivity", "onDestroy");
     }
 
     private void adapterClickListener() {
         adapter.setClickListener(new NotesAdapter.ClickListener() {
             @Override
-            public void onItemClick(Note note) {
-                notesPresenter.itemClick(note.getId());
+            public void onItemClick(Note note, int position) {
+                presenter.editClick(note.getId(), position);
             }
 
             @Override
             public void onEditClick(Note note, int position) {
-                notesPresenter.editClick(note.getId());
+                presenter.editClick(note.getId(), position);
             }
 
             @Override
             public void onDeleteClick(Note note, int position) {
-                notesPresenter.deleteClick(note, position);
+                presenter.deleteClick(note, position);
+                presenter.setScreen();
             }
         });
     }
@@ -100,16 +132,21 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
         if (data == null) {
             return;
         }
-        String id = data.getStringExtra(NoteDetailActivity.NOTE_ID);
-        String title = data.getStringExtra(NoteDetailActivity.TITLE);
-        String description = data.getStringExtra(NoteDetailActivity.DESCRIPTION);
-        notesPresenter.createOrUpdateNote(id, title, description);
+        String id = data.getStringExtra(Constants.NOTE_ID);
+        String title = data.getStringExtra(Constants.TITLE);
+        String description = data.getStringExtra(Constants.DESCRIPTION);
+        presenter.createOrUpdateNote(id, title, description);
     }
 
 
     @OnClick({R.id.fab})
     void onClickAdd(View view) {
-        notesPresenter.addNote();
+        presenter.addNote();
+    }
+
+    @Override
+    public void addNote() {
+        adapter.addNote();
     }
 
     @Override
@@ -117,11 +154,18 @@ public class NotesActivity extends MvpAppCompatActivity implements INotesView {
         adapter.removeNote(position);
     }
 
+    @Override
+    public void updateNote(int position, Note note) {
+        adapter.updateNote(position, note);
+    }
 
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getResources().getString(R.string.all_notes));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
+        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+        getSupportActionBar().setSubtitle(getResources().getString(R.string.all_notes));
     }
 
     @Override

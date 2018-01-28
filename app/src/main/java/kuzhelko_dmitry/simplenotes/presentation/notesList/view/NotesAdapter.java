@@ -11,6 +11,7 @@ import java.util.List;
 
 import kuzhelko_dmitry.simplenotes.R;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
+import kuzhelko_dmitry.simplenotes.utils.Constants;
 
 /**
  * Created by kuzhe on 27.01.2018.
@@ -22,7 +23,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     private static ClickListener clickListener;
 
     public interface ClickListener {
-        void onItemClick(Note note);
+        void onItemClick(Note note, int position);
 
         void onEditClick(Note note, int position);
 
@@ -46,7 +47,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     }
 
     public void updateNote(int position, Note note) {
-        notifyItemChanged(position, note);
+//        notifyItemChanged(position);
+//        notifyItemChanged(position, note);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -62,7 +65,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         if (notes == null) {
-            return 0;
+            return Constants.ZERO_ITEM_COUNT;
         } else {
             return notes.size();
         }
@@ -111,7 +114,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
                 public void onClick(View v) {
 
                     if (NotesAdapter.clickListener != null) {
-                        NotesAdapter.clickListener.onItemClick(notes.get(getAdapterPosition()));
+                        NotesAdapter.clickListener.onItemClick(notes.get(getAdapterPosition()), getAdapterPosition());
                     }
                 }
             });

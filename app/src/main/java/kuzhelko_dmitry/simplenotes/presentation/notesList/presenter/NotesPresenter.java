@@ -1,6 +1,7 @@
 package kuzhelko_dmitry.simplenotes.presentation.notesList.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -49,12 +50,8 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
         }
     }
 
-    public void itemClick(String noteId) {
-        getViewState().startDetailActivity(NoteDetailActivity.getNoteIntent(context, noteId));
-    }
-
-    public void editClick(String noteId) {
-        getViewState().startDetailActivity(NoteDetailActivity.getNoteIntent(context, noteId));
+    public void editClick(String noteId, int position) {
+        getViewState().startDetailActivity(NoteDetailActivity.getNoteIntent(context, noteId, position));
     }
 
     public void deleteClick(Note note, int position) {
@@ -64,17 +61,19 @@ public class NotesPresenter extends MvpPresenter<INotesView> {
 
     public void addNote() {
         getViewState().startDetailActivity(NoteDetailActivity.getNoteIntent(context));
-//        Intent intent = new Intent(this, NameActivity.class);
     }
 
     public void createOrUpdateNote(String noteId, String title, String description) {
         Note note;
         if (noteId == null) {
             note = new Note(title, description);
-            interactor.createOrUpdateNote(note);
+            getViewState().addNote();
+            Log.i("NotesPresenter1", "note = " + note.toString());
         } else {
             note = new Note(noteId, title, description);
-            interactor.createOrUpdateNote(note);
+            getViewState().updateNote(1, note);
+            Log.i("NotesPresenter2", "note = " + note.toString());
         }
+        interactor.createOrUpdateNote(note);
     }
 }

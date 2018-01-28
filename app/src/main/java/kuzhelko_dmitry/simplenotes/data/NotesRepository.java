@@ -1,11 +1,13 @@
 package kuzhelko_dmitry.simplenotes.data;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.List;
 
 import io.realm.Realm;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
+import kuzhelko_dmitry.simplenotes.utils.Constants;
 
 /**
  * Created by kuzhe on 27.01.2018.
@@ -13,7 +15,6 @@ import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 
 public class NotesRepository implements INotesRepository {
 
-    private static final String NOTE_ID = "note id";
     private Realm mRealm = Realm.getDefaultInstance();
 
     public NotesRepository() {
@@ -21,7 +22,7 @@ public class NotesRepository implements INotesRepository {
 
     @Override
     public Note getNote(String noteId) {
-        return mRealm.where(Note.class).equalTo(NOTE_ID, noteId).findFirst();
+        return mRealm.where(Note.class).equalTo(Constants.NOTE_ID, noteId).findFirst();
     }
 
     @Override

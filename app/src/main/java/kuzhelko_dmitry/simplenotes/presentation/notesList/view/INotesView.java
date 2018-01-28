@@ -20,6 +20,10 @@ public interface INotesView extends MvpView {
 
     void deleteNote(int position);
 
+    void addNote();
+
+    void updateNote(int position, Note note);
+
     void hideEmptyScreen();
 
     void showEmptyScreen();

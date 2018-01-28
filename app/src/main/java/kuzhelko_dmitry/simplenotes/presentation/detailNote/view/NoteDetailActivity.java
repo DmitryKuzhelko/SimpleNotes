@@ -21,6 +21,7 @@ import kuzhelko_dmitry.simplenotes.R;
 import kuzhelko_dmitry.simplenotes.domain.entities.Note;
 import kuzhelko_dmitry.simplenotes.presentation.Application.App;
 import kuzhelko_dmitry.simplenotes.presentation.detailNote.presenter.NoteDetailPresenter;
+import kuzhelko_dmitry.simplenotes.utils.Constants;
 
 /**
  * Created by kuzhe on 26.01.2018.
@@ -28,11 +29,9 @@ import kuzhelko_dmitry.simplenotes.presentation.detailNote.presenter.NoteDetailP
 
 public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDetailView {
 
-    public static final String NOTE_ID = "note id";
-    public static final String TITLE = "note title";
-    public static final String DESCRIPTION = "note description";
     private String noteId;
     private Toolbar toolbar;
+
 
     @BindView(R.id.etNoteTitle)
     EditText noteTitle;
@@ -47,14 +46,15 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
     NoteDetailPresenter mNoteDetailPresenter;
 
     @ProvidePresenter
-    NoteDetailPresenter daggerPresenter(){
+    NoteDetailPresenter daggerPresenter() {
         App.getComponent().inject(this);
         return daggerPresenter;
     }
 
-    public static Intent getNoteIntent(Context context, String noteId) {
+    public static Intent getNoteIntent(Context context, String noteId, int position) {
         Intent intent = new Intent(context, NoteDetailActivity.class);
-        intent.putExtra(NOTE_ID, noteId);
+        intent.putExtra(Constants.NOTE_ID, noteId);
+        intent.putExtra(Constants.POSITION, position);
         return intent;
     }
 
@@ -70,14 +70,17 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
         setToolbar();
         ButterKnife.bind(this);
 
-        noteId = getIntent().getStringExtra(NOTE_ID);
+        noteId = getIntent().getStringExtra(Constants.NOTE_ID);
         mNoteDetailPresenter.getDetailInfo(noteId);
     }
 
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getResources().getString(R.string.add_note));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
+        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+        getSupportActionBar().setSubtitle(getResources().getString(R.string.add_note));
     }
 
     @Override
@@ -92,9 +95,9 @@ public class NoteDetailActivity extends MvpAppCompatActivity implements INoteDet
         switch (item.getItemId()) {
             case R.id.saveNote:
                 Intent intent = new Intent();
-                intent.putExtra(NOTE_ID, noteId);
-                intent.putExtra(TITLE, noteTitle.getText().toString());
-                intent.putExtra(DESCRIPTION, noteDescription.getText().toString());
+                intent.putExtra(Constants.NOTE_ID, noteId);
+                intent.putExtra(Constants.TITLE, noteTitle.getText().toString());
+                intent.putExtra(Constants.DESCRIPTION, noteDescription.getText().toString());
                 setResult(RESULT_OK, intent);
                 finish();
         }
